@@ -1,0 +1,127 @@
+<script>
+    const fullnameInput = document.getElementById('fullname');
+    const idcodeInput = document.getElementById('idcode');
+    const signatureImage = document.getElementById('signatureImage');
+    const signatureModal = document.getElementById('signatureModal');
+    const outputDiv = document.getElementById('output');
+    const generateButton = document.getElementById('generateButton');
+    const printButton = document.getElementById('printButton');
+    const idcodeError = document.getElementById('idcode-error');
+
+    let drawing = false;
+
+    function toggleElementVisibility(element, isVisible) {
+        element.style.display = isVisible ? 'block' : 'none';
+    }
+
+    function openSignatureModal() {
+        signatureModal.style.display = 'flex';
+    }
+
+    function closeSignatureModal() {
+        signatureModal.style.display = 'none';
+    }
+
+    function startDrawing(e) {
+        drawing = true;
+        ctx.beginPath();
+        ctx.moveTo(getX(e), getY(e));
+    }
+
+    function stopDrawing() {
+        drawing = false;
+    }
+
+    function draw(e) {
+        if (!drawing) return;
+        ctx.lineWidth = 2;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = '#00008B';
+        ctx.lineTo(getX(e), getY(e));
+        ctx.stroke();
+    }
+
+    function getX(e) {
+        return e.touches ? e.touches[0].clientX - canvas.getBoundingClientRect().left : e.clientX - canvas.getBoundingClientRect().left;
+    }
+
+    function getY(e) {
+        return e.touches ? e.touches[0].clientY - canvas.getBoundingClientRect().top : e.clientY - canvas.getBoundingClientRect().top;
+    }
+
+    function saveSignature() {
+        signatureImage.src = canvas.toDataURL('image/png');
+        toggleElementVisibility(signatureImage, true);
+        closeSignatureModal();
+    }
+
+    function clearSignature() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        toggleElementVisibility(signatureImage, false);
+    }
+
+    function validateIdCode() {
+        const idcode = idcodeInput.value;
+        const isValid = idcode.length === 10 && !isNaN(idcode);
+        idcodeError.style.display = isValid ? 'none' : 'inline';
+    }
+
+    function generateText() {
+        const fullname = fullnameInput.value;
+        const idcode = idcodeInput.value;
+        const signature = signatureImage.src;
+
+        if (!fullname || !idcode || idcode.length !== 10 || !signature) {
+            alert('لطفاً تمام فیلدها را به‌طور صحیح پر کنید و امضا کنید.');
+            return;
+        }
+
+        const currentDate = new Date().toLocaleDateString('fa-IR', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+        });
+
+        const outputText = `
+<div class="center-text">
+<b>بسمه تعالی</b><br>
+<b>تأییدیه حضور و پذیرش شرایط دوره "تربیت مربی و مشاور نوجوان"</b><br>
+<b>موسسه تعالی اندیشه و رشد</b>
+</div>
+<br>
+اینجانب <b>${fullname}</b> دارای کد ملی <b>${idcode}</b> با آگاهی کامل تأیید می‌کنم که در دوره "تربیت مربی و مشاور نوجوان" شرکت کرده‌ام.
+<br>
+<div class="center-text"><img src="${signature}" alt="امضا" style="max-width: 300px; max-height: 300px;"></div>
+<div class="center-text"><b>${fullname}</b></div>
+<div class="center-text"><b>${currentDate}</b></div>
+`;
+
+        outputDiv.innerHTML = outputText;
+
+        toggleElementVisibility(outputDiv, true);
+        toggleElementVisibility(printButton, true);
+        toggleElementVisibility(document.getElementById('fullnameContainer'), false);
+        toggleElementVisibility(document.getElementById('idcodeContainer'), false);
+        toggleElementVisibility(document.getElementById('signatureContainer'), false);
+        toggleElementVisibility(generateButton, false);
+
+        printButton.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function printContent() {
+        const content = outputDiv.innerHTML;
+        const printWindow = window.open('', '', 'height=500,width=800');
+        printWindow.document.write(`<html><head><title>درخواست گواهی</title></head><body>${content}</body></html>`);
+        printWindow.document.close();
+        printWindow.print();
+    }
+
+    const canvas = document.getElementById('signatureCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.addEventListener('mousedown', startDrawing);
+    canvas.addEventListener('mouseup', stopDrawing);
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('touchstart', startDrawing, { passive: false });
+    canvas.addEventListener('touchend', stopDrawing);
+    canvas.addEventListener('touchmove', draw, { passive: false });
+</script>
