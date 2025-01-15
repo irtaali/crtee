@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جستجوی گواهی</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 90%; /* عرض حاشیه 90 درصد */
+            width: 90%; /* عرض حاشیه 90 درصد */
+        }
+        h1 {
+            text-align: center;
+            color: #333333;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            display: none; /* Initially hide the table */
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+        td {
+            background-color: #f9f9f9;
+        }
+        #searchInput {
+            width: 100%;
+            padding: 10px;
+            margin: 20px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        #errorMsg {
+            color: red;
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        #loadingMsg {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            color: blue;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>جستجوی گواهی</h1>
+        <p style="text-align: center;">
+            <img height="234" width="215" src="//bayanbox.ir/view/1658127978867304298/%DA%AF%D9%88%D8%A7%D9%87%DB%8C.jpg" alt="گواهی" />
+        </p>
+        <input type="text" id="searchInput" placeholder="شماره گواهی را وارد کنید" />
+        <div id="loadingMsg">داده‌ها در حال پردازش هستند، لطفا کمی صبر کنید...</div>
+        <div id="errorMsg">هیچ داده‌ای با این شرایط یافت نشد.</div>
+        <table id="excelData">
+            <thead>
+                <tr>
+                    <th>لینک</th>
+                    <th>اطلاعات</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Rows will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const url = 'https://docs.google.com/spreadsheets/d/1c0g7deSI0y-QP4nQNux-l07_cumu3A6Gy0OolnhZWdU/export?format=xlsx';
+
+        // Show loading message
+        document.getElementById('loadingMsg').style.display = 'block';
+
+        fetch(url)
+            .then(response => response.arrayBuffer())
+            .then(data => {
+                const workbook = XLSX.read(data, { type: 'array' });
+                const firstSheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheetName];
+                const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                displayData(jsonData);
+            })
+            .catch(error => console.error('Error fetching the Excel file:', error))
+            .finally(() => {
+                document.getElementById('loadingMsg').style.display = 'none'; // Hide loading message
+            });
+
+        function displayData(data) {
+            const filteredData = data.slice(1); // Exclude header row
+
+            document.getElementById('searchInput').addEventListener('input', function() {
+                const searchTerm = this.value.trim().toLowerCase();
+                filterTable(filteredData, searchTerm);
+            });
+        }
+
+        function filterTable(data, searchTerm) {
+            const table = document.getElementById('excelData');
+            const errorMsg = document.getElementById('errorMsg');
+
+            table.querySelector('tbody').innerHTML = ''; // Clear previous rows
+            let hasResults = false;
+
+            if (searchTerm.length < 7) {
+                table.style.display = 'none';
+                errorMsg.style.display = 'none';
+                return;
+            }
+
+            data.forEach(row => {
+                const cellM = row[11];
+                if (cellM && cellM.toString().toLowerCase().includes(searchTerm)) {
+                    hasResults = true;
+                    const tr = document.createElement('tr');
+
+                    // Create cell for column L (link)
+                    const tdL = document.createElement('td');
+                    const linkText = row[10];
+                    const linkUrl = row[9];
+                    const linkElement = document.createElement('a');
+                    linkElement.textContent = linkText;
+                    linkElement.href = linkUrl;
+                    linkElement.target = "_blank";
+                    tdL.appendChild(linkElement);
+                    tr.appendChild(tdL);
+
+                    // Create cell for column N
+                    const tdN = document.createElement('td');
+                    tdN.textContent = row[12];
+                    tr.appendChild(tdN);
+
+                    table.querySelector('tbody').appendChild(tr);
+                }
+            });
+
+            if (hasResults) {
+                errorMsg.style.display = 'none';
+                table.style.display = 'table';
+            } else {
+                errorMsg.style.display = 'block';
+                table.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
