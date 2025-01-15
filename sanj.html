@@ -33,11 +33,13 @@
             width: 100%;
             display: none; /* Initially hide the table */
             margin-top: 20px;
+            direction: rtl; /* متن راست‌به‌چپ */
         }
         th, td {
             border: 1px solid #ddd;
             padding: 10px;
-            text-align: center;
+            text-align: right; /* متن راست‌چین */
+            direction: rtl; /* متن راست‌به‌چپ */
         }
         th {
             background-color: #007BFF;
@@ -45,6 +47,7 @@
         }
         td {
             background-color: #f9f9f9;
+            unicode-bidi: embed; /* تثبیت ترتیب نوشتار */
         }
         #searchInput {
             width: 100%;
@@ -66,13 +69,6 @@
             margin-top: 20px;
             font-size: 18px;
             color: blue;
-        }
-        a {
-            color: #007BFF;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
         }
     </style>
 </head>
@@ -160,6 +156,7 @@
                     // Create cell for column N
                     const tdN = document.createElement('td');
                     tdN.textContent = row[12];
+                    tdN.style.unicodeBidi = "embed"; // ثابت‌سازی متن
                     tr.appendChild(tdN);
 
                     table.querySelector('tbody').appendChild(tr);
