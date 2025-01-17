@@ -6,78 +6,96 @@
     <title>استعلام گواهی</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
     <style>
+        /* پویانمایی پس‌زمینه */
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
+            font-family: 'Vazir', Arial, sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
         }
         .container {
-            background: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-            max-width: 90%; /* عرض حاشیه 90 درصد */
-            width: 90%; /* عرض حاشیه 90 درصد */
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
         }
         h1 {
-            text-align: center;
-            color: #333333;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        img {
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        #searchInput {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+        #errorMsg, #loadingMsg {
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        #errorMsg {
+            color: #d9534f;
+            display: none;
+        }
+        #loadingMsg {
+            color: #0275d8;
+            display: none;
         }
         table {
             border-collapse: collapse;
             width: 100%;
-            display: none; /* Initially hide the table */
+            display: none;
             margin-top: 20px;
-            direction: rtl; /* متن راست‌به‌چپ */
+            text-align: center;
+            direction: rtl;
         }
         th, td {
             border: 1px solid #ddd;
-            padding: 10px;
-            text-align: right; /* متن راست‌چین */
-            direction: rtl; /* متن راست‌به‌چپ */
+            padding: 12px;
         }
         th {
-            background-color: #007BFF;
-            color: white;
+            background-color: #007bff;
+            color: #fff;
         }
         td {
             background-color: #f9f9f9;
-            unicode-bidi: embed; /* تثبیت ترتیب نوشتار */
         }
-        #searchInput {
-            width: 100%;
-            padding: 10px;
-            margin: 20px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
+        a {
+            color: #007bff;
+            text-decoration: none;
         }
-        #errorMsg {
-            color: red;
-            display: none;
-            text-align: center;
-            margin-top: 20px;
-        }
-        #loadingMsg {
-            display: none;
-            text-align: center;
-            margin-top: 20px;
-            font-size: 18px;
-            color: blue;
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>استعلام گواهی</h1>
-        <p style="text-align: center;">
-            <img height="234" width="215" src="//bayanbox.ir/view/1658127978867304298/%DA%AF%D9%88%D8%A7%D9%87%DB%8C.jpg" alt="گواهی" />
-        </p>
+        <img height="234" width="215" src="//bayanbox.ir/view/1658127978867304298/%DA%AF%D9%88%D8%A7%D9%87%DB%8C.jpg" alt="گواهی" />
         <input type="text" id="searchInput" placeholder="شماره گواهی را وارد کنید" />
         <div id="loadingMsg">داده‌ها در حال پردازش هستند، لطفا کمی صبر کنید...</div>
         <div id="errorMsg">هیچ داده‌ای با این شرایط یافت نشد.</div>
@@ -89,7 +107,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Rows will be dynamically added here -->
+                <!-- سطرها به‌صورت پویا اضافه می‌شوند -->
             </tbody>
         </table>
     </div>
@@ -97,7 +115,7 @@
     <script>
         const url = 'https://docs.google.com/spreadsheets/d/1c0g7deSI0y-QP4nQNux-l07_cumu3A6Gy0OolnhZWdU/export?format=xlsx';
 
-        // Show loading message
+        // نمایش پیام در حال بارگذاری
         document.getElementById('loadingMsg').style.display = 'block';
 
         fetch(url)
@@ -109,13 +127,13 @@
                 const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
                 displayData(jsonData);
             })
-            .catch(error => console.error('Error fetching the Excel file:', error))
+            .catch(error => console.error('خطا در دریافت فایل اکسل:', error))
             .finally(() => {
-                document.getElementById('loadingMsg').style.display = 'none'; // Hide loading message
+                document.getElementById('loadingMsg').style.display = 'none';
             });
 
         function displayData(data) {
-            const filteredData = data.slice(1); // Exclude header row
+            const filteredData = data.slice(1);
 
             document.getElementById('searchInput').addEventListener('input', function() {
                 const searchTerm = this.value.trim().toLowerCase();
@@ -127,7 +145,7 @@
             const table = document.getElementById('excelData');
             const errorMsg = document.getElementById('errorMsg');
 
-            table.querySelector('tbody').innerHTML = ''; // Clear previous rows
+            table.querySelector('tbody').innerHTML = '';
             let hasResults = false;
 
             if (searchTerm.length < 7) {
@@ -142,7 +160,6 @@
                     hasResults = true;
                     const tr = document.createElement('tr');
 
-                    // Create cell for column L (link)
                     const tdL = document.createElement('td');
                     const linkText = row[10];
                     const linkUrl = row[9];
@@ -153,10 +170,8 @@
                     tdL.appendChild(linkElement);
                     tr.appendChild(tdL);
 
-                    // Create cell for column N
                     const tdN = document.createElement('td');
                     tdN.textContent = row[12];
-                    tdN.style.unicodeBidi = "embed"; // ثابت‌سازی متن
                     tr.appendChild(tdN);
 
                     table.querySelector('tbody').appendChild(tr);
