@@ -6,59 +6,99 @@
   <title>موسسه تعالی اندیشه و رشد</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Arial', sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f9f9f9;
+      background-color: #e0e5ec;
       color: #333;
-      line-height: 1.6;
     }
+
     header {
-      background-color: #4CAF50;
+      background: linear-gradient(135deg, #4CAF50, #388E3C);
       color: white;
       text-align: center;
-      padding: 1rem 0;
+      padding: 2rem 0;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
+
     header h1 {
       margin: 0;
+      font-size: 2.5rem;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
     }
+
     .container {
       width: 90%;
       max-width: 1200px;
       margin: 20px auto;
-      background: white;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 15px;
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+      margin-bottom: 20px;
       overflow: hidden;
+      border: 1px solid #ddd;
+      transition: transform 0.3s, box-shadow 0.3s;
     }
-    .section {
-      padding: 20px;
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
     }
-    .section h2 {
-      color: #4CAF50;
-      margin-bottom: 15px;
+
+    .card-header {
+      background: linear-gradient(135deg, #f8f9fa, #e0e5ec);
+      padding: 1rem;
+      border-bottom: 2px solid #4CAF50;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
     }
+
+    .card-content {
+      padding: 1.5rem;
+      line-height: 1.8;
+    }
+
     .info-list {
       list-style: none;
       padding: 0;
     }
+
     .info-list li {
       margin-bottom: 10px;
-    }
-    a {
+      font-weight: bold;
       color: #4CAF50;
-      text-decoration: none;
     }
+
+    a {
+      color: #388E3C;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
     footer {
       text-align: center;
-      background-color: #333;
+      background: linear-gradient(135deg, #388E3C, #2E7D32);
       color: white;
       padding: 10px 0;
       margin-top: 20px;
+      box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
     }
+
     @media (max-width: 768px) {
       header h1 {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
+      }
+
+      .card-content {
+        font-size: 0.9rem;
       }
     }
   </style>
@@ -69,41 +109,49 @@
   </header>
 
   <div class="container">
-    <div class="section">
-      <h2>مشخصات موسسه</h2>
-      <ul class="info-list">
-        <li>شناسه ملی: 14013770611</li>
-        <li>شناسه خدمت الکترونیک: 17061695000</li>
-        <li>کد شناسایی در سازمان تبلیغات: 31605007</li>
-        <li>شماره ثبت: 391</li>
-        <li>ایمیل: <a href="mailto:irtashacol@gmail.com">irtashacol@gmail.com</a></li>
-        <li>ایتا: <a href="https://eitaa.com/irtaali" target="_blank">https://eitaa.com/irtaali</a></li>
-        <li>شماره مجوز: 1403136/32273</li>
-      </ul>
+    <div class="card">
+      <div class="card-header">مشخصات موسسه</div>
+      <div class="card-content">
+        <ul class="info-list">
+          <li>شناسه ملی: 14013770611</li>
+          <li>شناسه خدمت الکترونیک: 17061695000</li>
+          <li>کد شناسایی در سازمان تبلیغات: 31605007</li>
+          <li>شماره ثبت: 391</li>
+          <li>ایمیل: <a href="mailto:irtashacol@gmail.com">irtashacol@gmail.com</a></li>
+          <li>ایتا: <a href="https://eitaa.com/irtaali" target="_blank">https://eitaa.com/irtaali</a></li>
+          <li>شماره مجوز: 1403136/32273</li>
+        </ul>
+      </div>
     </div>
 
-    <div class="section">
-      <h2>درباره ما</h2>
-      <p>
-        موسسه فرهنگی و تبلیغی تعالی اندیشه و رشد از تاریخ تأسیس خود با هدف ترویج و توسعه فرهنگ دینی در جامعه اسلامی آغاز به کار کرده است...
-      </p>
+    <div class="card">
+      <div class="card-header">درباره ما</div>
+      <div class="card-content">
+        <p>
+          موسسه فرهنگی و تبلیغی تعالی اندیشه و رشد از تاریخ تأسیس خود با هدف ترویج و توسعه فرهنگ دینی در جامعه اسلامی آغاز به کار کرده است. 
+        </p>
+      </div>
     </div>
 
-    <div class="section">
-      <h2>اهداف و مأموریت‌ها</h2>
-      <ul>
-        <li>ترویج فرهنگ دینی</li>
-        <li>توانمندسازی طلاب و فرهنگیان</li>
-        <li>بارور نمودن اوقات فراغت جوانان</li>
-        <li>تشکیل جبهه فرهنگی</li>
-      </ul>
+    <div class="card">
+      <div class="card-header">اهداف و مأموریت‌ها</div>
+      <div class="card-content">
+        <ul>
+          <li>ترویج فرهنگ دینی</li>
+          <li>توانمندسازی طلاب و فرهنگیان</li>
+          <li>بارور نمودن اوقات فراغت جوانان</li>
+          <li>تشکیل جبهه فرهنگی</li>
+        </ul>
+      </div>
     </div>
 
-    <div class="section">
-      <h2>فعالیت‌ها</h2>
-      <p>
-        موسسه ما با برگزاری برنامه‌های مختلف فرهنگی، آموزشی و مشاوره‌ای، سعی در ایجاد فضایی مناسب برای رشد و شکوفایی استعدادهای نوجوانان و جوانان دارد...
-      </p>
+    <div class="card">
+      <div class="card-header">فعالیت‌ها</div>
+      <div class="card-content">
+        <p>
+          موسسه ما با برگزاری برنامه‌های مختلف فرهنگی، آموزشی و مشاوره‌ای، سعی در ایجاد فضایی مناسب برای رشد و شکوفایی استعدادهای نوجوانان و جوانان دارد.
+        </p>
+      </div>
     </div>
   </div>
 
