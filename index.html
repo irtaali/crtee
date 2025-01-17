@@ -1,48 +1,132 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>صفحه اصلی</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 20px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موسسه فرهنگی و تبلیغی تعالی اندیشه و رشد</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            direction: rtl;
+        }
 
-    h1 {
-      text-align: center;
-      color: #333;
-    }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
 
-    ul {
-      list-style-type: none;
-      padding: 0;
-    }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
 
-    li {
-      margin: 10px 0;
-      font-size: 18px;
-    }
+        .info-section, .about-section, .contact-section {
+            background-color: white;
+            margin: 20px 0;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-    a {
-      color: #3498db;
-      text-decoration: none;
-    }
+        h2 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
 
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .link {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        .contact-details {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .contact-details div {
+            width: 48%;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-  <h1>صفحه اصلی</h1>
-  <hr />
-  <h2>صفحات موجود:</h2>
-  <ul id="page-list">
-    <!-- اینجا به‌طور خودکار عناوین صفحات جدید اضافه می‌شود -->
-  </ul>
+
+<header>
+    <h1>موسسه فرهنگی و تبلیغی تعالی اندیشه و رشد</h1>
+</header>
+
+<div class="container">
+
+    <!-- Info Section -->
+    <section class="info-section">
+        <h2>مشخصات موسسه</h2>
+        <p><strong>شناسه ملی:</strong> 14013770611</p>
+        <p><strong>شناسه خدمت الکترونیک:</strong> 17061695000</p>
+        <p><strong>کد شناسایی در سازمان تبلیغات:</strong> 31605007</p>
+        <p><strong>شماره ثبت:</strong> 391</p>
+        <p><strong>ایمیل:</strong> <a href="mailto:irtashacol@gmail.com" class="link">irtashacol@gmail.com</a></p>
+        <p><strong>ایتا:</strong> <a href="https://eitaa.com/irtaali" class="link" target="_blank">https://eitaa.com/irtaali</a></p>
+        <p><strong>شماره مجوز:</strong> 1403136/32273</p>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section">
+        <h2>درباره ما</h2>
+        <p>موسسه فرهنگی و تبلیغی تعالی اندیشه و رشد از تاریخ تأسیس خود با هدف ترویج و توسعه فرهنگ دینی در جامعه اسلامی آغاز به کار کرده است...</p>
+        <p>این موسسه با اخذ مجوز رسمی از اداره کل سازمان تبلیغات اسلامی و شناسه ملی ۱۴۰۱۳۷۷۰۶۱۱، به فعالیت‌های فرهنگی، آموزشی و اجتماعی در راستای اشاعه ارزش‌های اسلامی و انقلابی پرداخته است.</p>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="about-section">
+        <h2>اهداف و مأموریت‌ها</h2>
+        <ul>
+            <li>ترویج فرهنگ دینی</li>
+            <li>توانمندسازی طلاب و فرهنگیان</li>
+            <li>بارور نمودن اوقات فراغت جوانان</li>
+            <li>تشکیل جبهه فرهنگی</li>
+        </ul>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <h2>تماس با ما</h2>
+        <div class="contact-details">
+            <div>
+                <p><strong>آدرس ایمیل:</strong> <a href="mailto:irtashacol@gmail.com" class="link">irtashacol@gmail.com</a></p>
+                <p><strong>ایتا:</strong> <a href="https://eitaa.com/irtaali" class="link" target="_blank">https://eitaa.com/irtaali</a></p>
+            </div>
+            <div>
+                <p><strong>شماره مجوز:</strong> 1403136/32273</p>
+                <p><strong>شناسه ملی:</strong> 14013770611</p>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<footer>
+    <p>&copy; 2025 موسسه فرهنگی و تبلیغی تعالی اندیشه و رشد - تمامی حقوق محفوظ است.</p>
+</footer>
+
 </body>
 </html>
