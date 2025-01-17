@@ -1,182 +1,48 @@
-<style type="text/css">.notification {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #ff9900;
-    color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    font-size: 18px;
-    font-weight: bold;
-    text-align: center;
-    display: none;
-  }
-  .timer {
-    font-size: 24px;
-    font-weight: bold;
-    margin-top: 10px;
-  }
-  .flower {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: #ff69b4;
-    animation: throwFlower 2s linear;
-    border-radius: 0; /* برای تبدیل به مربع */
-  }
-  /* اضافه کردن رنگ‌های مختلف */
-  .flower:nth-child(1) {
-    background-color: #ff69b4;
-  }
-  .flower:nth-child(2) {
-    background-color: #33cc33;
-  }
-  .flower:nth-child(3) {
-    background-color: #6666cc;
-  }
-  .flower:nth-child(4) {
-    background-color: #cc33cc;
-  }
-  .flower:nth-child(5) {
-    background-color: #33cccc;
-  }
-  .flower:nth-child(6) {
-    background-color: #cc6666;
-  }
-  .flower:nth-child(7) {
-    background-color: #66cc33;
-  }
-  .flower:nth-child(8) {
-    background-color: #cccc33;
-  }
-  .flower:nth-child(9) {
-    background-color: #33cc66;
-  }
-  .flower:nth-child(10) {
-    background-color: #6666cc;
-  }
-  @keyframes throwFlower {
-    0% {
-      transform: translate(0, 0);
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>صفحه اصلی</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 20px;
     }
-    100% {
-      transform: translate(100px, 100px);
-      opacity: 0;
-    }
-  }
-  .top-flower {
-    animation-name: throwFlowerTop;
-  }
-  @keyframes throwFlowerTop {
-    0% {
-      transform: translate(0, 0);
-    }
-    100% {
-      transform: translate(0, -100px);
-      opacity: 0;
-    }
-  }
-  .bottom-flower {
-    animation-name: throwFlowerBottom;
-  }
-  @keyframes throwFlowerBottom {
-    0% {
-      transform: translate(0, 0);
-    }
-    100% {
-      transform: translate(0, 100px);
-      opacity: 0;
-    }
-  }
-  .left-flower {
-    animation-name: throwFlowerLeft;
-  }
-  @keyframes throwFlowerLeft {
-    0% {
-      transform: translate(0, 0);
-    }
-    100% {
-      transform: translate(-100px, 0);
-      opacity: 0;
-    }
-  }
-  .right-flower {
-    animation-name: throwFlowerRight;
-  }
-  @keyframes throwFlowerRight {
-    0% {
-      transform: translate(0, 0);
-    }
-    100% {
-      transform: translate(100px, 0);
-      opacity: 0;
-    }
-  }</style><div class="notification"><p>20 درصد تخفیف ویژه این دوره!</p><p>کد تخفیف: <span style="font-size: 24px; color: #fff; background-color: #333; padding: 5px 10px; border-radius: 5px;">1212</span></p><p class="timer">این تخفیف در <span id="countdown">14</span> ثانیه دیگر ناپدید می‌شود</p><h5>کد تخفیف را به یاد داشته باشید</h5><div class="flowers"><div class="flower top-flower" style="top: -20px; left: 50%; transform: translateX(-50%);"> </div><div class="flower top-flower" style="top: -20px; left: 30%; transform: translateX(-50%);"> </div><div class="flower top-flower" style="top: -20px; left: 70%; transform: translateX(-50%);"> </div><div class="flower bottom-flower" style="top: 100%; left: 50%; transform: translateX(-50%);"> </div><div class="flower bottom-flower" style="top: 100%; left: 30%; transform: translateX(-50%);"> </div><div class="flower bottom-flower" style="top: 100%; left: 70%; transform: translateX(-50%);"> </div><div class="flower left-flower" style="top: 50%; left: -20px; transform: translateY(-50%);"> </div><div class="flower left-flower" style="top: 30%; left: -20px; transform: translateY(-50%);"> </div><div class="flower left-flower" style="top: 70%; left: -20px; transform: translateY(-50%);"> </div><div class="flower right-flower" style="top: 50%; left: 100%; transform: translateY(-50%);"> </div><div class="flower right-flower" style="top: 30%; left: 100%; transform: translateY(-50%);"> </div><div class="flower right-flower" style="top: 70%; left: 100%; transform: translateY(-50%);"> </div><div class="flower right-flower" style="top: 50%; left: 100%; transform: translateY(-50%);"> </div></div></div><script>
-  // Show the notification when the page loads
-  window.onload = function() {
-    if (!localStorage.getItem('notificationShown')) {
-      document.querySelector('.notification').style.display = 'block';
-      var countdown = 14;
-      var interval = setInterval(function() {
-        countdown--;
-        document.getElementById('countdown').innerHTML = countdown;
-        if (countdown === 0) {
-          clearInterval(interval);
-          document.querySelector('.notification').style.display = 'none';
-        }
-      }, 1000); // update the countdown every second
-      // Throw flowers
-      var flowers = document.querySelectorAll('.flower');
-      flowers.forEach(function(flower) {
-        flower.style.animationPlayState = 'running';
-      });
-      setTimeout(function() {
-        flowers.forEach(function(flower) {
-          flower.style.display = 'none';
-        });
-      }, 2000); // hide flowers after 2 seconds
-      // Set the notificationShown key in local storage
-      localStorage.setItem('notificationShown', true);
-    }
-  }
-</script><style type="text/css">body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
-            direction: rtl;
-        }
 
-        .module {
-            background-color: #ffffff;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            margin: auto;
-        }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
 
-        h1 {
-            color: #333;
-            text-align: center;
-        }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
 
-        .button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            display: block;
-            margin: 20px auto;
-            text-align: center;
-            font-size: 16px;
-            text-decoration: none;
-        }
+    li {
+      margin: 10px 0;
+      font-size: 18px;
+    }
 
-        .button:hover {
-            background-color: #45a049;
-        }</style><div class="module"><h1>دوره تربیت مربی و مشاور نوجوان</h1><hr /><p>🔹<strong>هزینه دوره:</strong>&nbsp;<span style="color:#c0392b;">۳۰۰</span><span style="color:#d35400;"><strong>&nbsp;هزارتومان&nbsp;</strong></span></p><p>🔹<strong>گواهینامه:&nbsp;<span style="color:#d35400;">گواهینامه الکترونیک</span><a href="https://drive.google.com/file/d/1hPakPQUuOH0HuY_tJe4p-zVyTke_GOOe/view?usp=drivesdk"><span style="color:#3498db;">(نمونه گواهی) </span></a></strong></p><p>🔹مجموع ساعات: <span style="color:#d35400;">۵۴<strong>&nbsp;ساعت</strong></span></p><p>🔹<span style="color:#d35400;">دوره بدون آزمون پایانی است.</span></p><p><span style="color:#d35400;">🔹</span>فرصت تکمیل<span style="color:#d35400;">&nbsp;</span><span style="color:#000000;">دوره:</span><span style="color:#d35400;"> ۴۰ روز</span></p><p>🔹دوره به صورت مطالعاتی برگزار می‌شود و ۵ فایل PDF بین۳۰ تا ۵۰ صفحه‌ای را لازم است مطالعه نمایید.</p><p>🔹برای اخذ گواهی، لازم است خلاصه‌ای دستنویس از محتوای هر فایل برای ما ارسال کنید.</p><hr /><p style="text-align: center;"><a href="http://tashacol.ir/page/%D8%AF%D8%B1%D8%A8%D8%A7%D8%B1%D9%87"><span style="color:#2980b9;">جهت مشاهده اطلاعات موسسه اینجا کلیک کنید</span></a></p><hr /><h2>اساتید دوره</h2><p>محتوای دوره توسط واحد پژوهش و آموزش مؤسسه تعالیِ اندیشه و رشد از کتب و جزوات اساتیدی که در زیر قید می‌شوند گردآوری شده و در قالب فایل‌های PDF در اختیار شما قرار می‌گیرد.</p><ul><li>دکتر فرشته موتابی</li><li>دکتر ربابه نوری</li><li>دکتر ابراهیم اخوی</li><li>دکتر شهرام محمد خوانی</li><li>دکتر احمد ساویز</li><li>دکتر محمد مهدی عباسی آغوی</li><li>دکتر نیلا آخوندی</li></ul><hr /><p><span style="font-family: Arial, &quot;Times New Roman&quot;, serif;">سرفصل‌های دوره:</span></p><ol><li>ترم اول: شناخت سن نوجوانی<ul><li>تغیرات نوجوانی</li><li>چالش‌های نوجوانی</li><li>نیازهای نوجوانی</li><li>مشکلات نوجوان</li><li>ترس‌های نوجوانی</li></ul></li></ol><ol><li>ترم دوم: تربیت بنیادی نوجوان<ul><li>شناخت کلی از نوجوان</li><li>ویژگی‌های نوجوان</li><li>مبانی تربیت نوجوان</li><li>تربیت‌های سطحی و بدردنخور</li><li>تربیت اصولی و صحیح</li><li>مراحل تربیت نوجوان</li><li>اصول تربیت نوجوان</li></ul></li></ol><ol><li>ترم سوم: تربیت جنسی و تربیت دینی<ul><li>تربیت جنسی</li><li>مبحث ازدواج</li><li>انحرافات جنسی</li><li>تربیت دینی و اسلامی</li></ul></li></ol><ol><li>ترم چهارم: هنر ارتباط و راهنمایی نوجوان<ul><li>ارتباط موثر با نوجوان</li><li>کلیات مشاوره</li><li>اصول کلی مشاوره</li><li>اصول مشاوره از دیدگاه اسلام</li><li>فنون و تکنیک‌های ارائه مشاوره</li><li>روش‌های بهبود رفتار دانش‌آموزان</li></ul></li></ol><ol><li>ترم پنجم: مهارت‌های زندگی مختص نوجوان<ul><li>مهارت ارتباط موثر</li><li>مهارت خودآگاهی</li><li>مهارت حل مسئله</li><li>مهارت تصمیم‌گیری</li><li>مهارت مدیریت استرس</li><li>مهارت مدیریت احساسات</li><li>مهارت تفکر نقادانه</li><li>مدیریت روابط</li><li>تفکر خلاق</li><li>مهارت همدلی</li></ul></li></ol><a class="button" href="https://zarinp.al/635771"><span style="color:#ffffff;">ثبت نام</span></a></div>
+    a {
+      color: #3498db;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>صفحه اصلی</h1>
+  <hr />
+  <h2>صفحات موجود:</h2>
+  <ul id="page-list">
+    <!-- اینجا به‌طور خودکار عناوین صفحات جدید اضافه می‌شود -->
+  </ul>
+</body>
+</html>
