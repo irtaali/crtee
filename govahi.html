@@ -1,0 +1,217 @@
+ 
+
+<!DOCTYPE html>
+<html lang="fa">
+
+<head>
+    <meta charset="UTF-8">
+    <title>استعلام سابقه فعالیت</title>
+    <!-- کتابخانه‌های مورد نیاز -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            font-size: 14px; /* تغییر فونت به 14 برای همه متن‌ها */
+        }
+        #certificate {
+            padding: 20px;
+            width: 795px; /* عرض ثابت برای گواهی در حالت افقی (A4 Landscape) */
+            margin: auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header .right {
+            float: right;
+            text-align: right;
+            width: 40%;
+        }
+        .header .left {
+            float: left;
+            text-align: left;
+            width: 40%;
+        }
+        .header .center {
+            text-align: center;
+            width: 100%;
+        }
+        .content {
+            clear: both;
+            text-align: right;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            direction: rtl;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+        .signature {
+            margin-top: 30px;
+            text-align: center;
+        }
+        .signature p {
+            font-size: 14px;
+            font-weight: normal; /* امضای مدیرعامل به صورت معمولی */
+            text-align: center;
+        }
+        .title {
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .bold-text {
+            font-weight: bold; /* موسسه به صورت بولد */
+        }
+        .centered-text {
+            font-size: 14px;
+            margin-top: 10px; /* کمی پایین‌تر آمدن متن موسسه */
+        }
+    </style>
+</head>
+<body>
+    <h2>ورود به سامانه استعلام سابقه فعالیت</h2>
+    <form id="loginForm">
+        <label for="username">کد ملی:</label>
+        <input type="tel" id="username" pattern="\d{10}" maxlength="10" required>
+        <br>
+        <label for="password">رمز عبور (تکرار کد ملی):</label>
+        <input type="tel" id="password" pattern="\d{10}" maxlength="10" required>
+        <br>
+        <button type="button" onclick="validateUser()">ورود</button>
+    </form>
+
+    <!-- بخش گواهی -->
+    <div id="result" style="display:none;">
+        <div id="certificate">
+            <div class="header">
+                <div class="right">
+                    <p>شناسه ملی: ۱۴۰۱۳۷۷۰۶۱۱</p> <!-- شناسه ملی بالا -->
+                    <p>تلفن: ۰۳۴۲۳۴۳</p> <!-- تلفن پایین -->
+                </div>
+                <div class="left">
+                    <p>شماره: <span id="certificateNumber"></span></p>
+                    <p>تاریخ: <span id="date"></span></p>
+                </div>
+                <div class="center">
+                    <p class="bold-text centered-text">موسسه تعالی اندیشه و رشد</p> <!-- موسسه کمی پایین‌تر آمد -->
+                </div>
+            </div>
+            
+            <div class="content">
+                <div class="title">گواهی سابقه فعالیت</div> <!-- عنوان در وسط -->
+                <p>به استحضار می‌رساند آقا/خانم <span id="fullName"></span> دارای شماره ملی <span id="userId"></span> با جزئیات زیر در موسسه فرهنگی و تبلیغی تعالی اندیشه و رشد فعالیت داشته است:</p>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>مسئولیت</th>
+                            <th>تاریخ شروع</th>
+                            <th>تاریخ پایان</th>
+                        </tr>
+                    </thead>
+                    <tbody id="activityTable"></tbody>
+                </table>
+
+                <div class="signature">
+                    <p>مهر و امضای مدیر عامل موسسه</p> <!-- امضا به صورت معمولی -->
+                </div>
+            </div>
+        </div>
+        <!-- دکمه دانلود PDF -->
+        <button id="downloadPdfBtn" style="display:none; margin-top: 20px;">دانلود گواهی به صورت PDF</button>
+    </div>
+
+    <script>
+        let excelData = [];
+
+        async function fetchExcelData() {
+            const response = await fetch('https://docs.google.com/spreadsheets/d/1YRUI1hKwd9DUyoQ2YoECKZfmET4TYnEOhsR2b7Y_QDE/export?format=xlsx');
+            const data = await response.arrayBuffer();
+            const workbook = XLSX.read(data, { type: 'array' });
+            const sheet = workbook.Sheets[workbook.SheetNames[0]];
+            excelData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
+        }
+
+        fetchExcelData();
+
+        function validateUser() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            if (username !== password) {
+                alert("کد ملی و رمز عبور باید یکسان باشند.");
+                return;
+            }
+
+            const filteredData = excelData.filter(row => row[1] == username);
+
+            if (filteredData.length === 0) {
+                alert("کاربری با این کد ملی یافت نشد.");
+                return;
+            }
+
+            document.getElementById("fullName").innerText = filteredData[0][0];
+            document.getElementById("userId").innerText = username;
+
+            const now = new Date();
+            const timeStr = now.getHours().toString().padStart(2, '0') + now.getMinutes().toString().padStart(2, '0');
+            document.getElementById("date").innerText = new Date().toLocaleDateString("fa-IR");
+            document.getElementById("certificateNumber").innerText = username + timeStr;
+
+            const activityTable = document.getElementById("activityTable");
+            activityTable.innerHTML = "";
+            filteredData.forEach(row => {
+                const tr = document.createElement("tr");
+                const endDate = row[4] ? row[4] : 'تا هم اکنون'; // اگر تاریخ پایان خالی باشد، "تا هم اکنون" نوشته می‌شود
+                tr.innerHTML = `<td>${row[2]}</td><td>${row[3]}</td><td>${endDate}</td>`;
+                activityTable.appendChild(tr);
+            });
+
+            document.getElementById("loginForm").style.display = "none";
+            document.getElementById("result").style.display = "block";
+            document.getElementById("downloadPdfBtn").style.display = "block"; // نمایش دکمه دانلود
+        }
+
+        // رویداد کلیک برای دکمه دانلود PDF
+        document.getElementById("downloadPdfBtn").addEventListener("click", function() {
+            const certificate = document.getElementById("certificate");
+            const { jsPDF } = window.jspdf;
+
+            html2canvas(certificate, { scale: 2, useCORS: true }).then(canvas => {
+                const imgData = canvas.toDataURL("image/png");
+                const imgWidth = 842; // عرض A4 در پیکسل در حالت افقی
+                const pageHeight = 595; // ارتفاع A4 در پیکسل در حالت افقی
+                const imgHeight = canvas.height * (imgWidth / canvas.width);
+
+                let heightLeft = imgHeight;
+                let position = 0;
+
+                const pdf = new jsPDF('landscape', 'pt', 'a4');
+
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                while (heightLeft > 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+
+                pdf.save("certificate.pdf");
+            });
+        });
+    </script>
+</body>
+</html>
