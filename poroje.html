@@ -146,11 +146,16 @@
         table.querySelector('tbody').innerHTML = '';
         let hasResults = false;
 
+        // حذف صفرهای ابتدایی از کد ملی وارد شده
+        const normalizedSearchTerm = searchTerm.replace(/^0+/, '');
+
         data.forEach(row => {
             const nationalCode = row[4];
 
-            // شرط برای نادیده گرفتن صفر
-            if (nationalCode && nationalCode.toString().toLowerCase().includes(searchTerm) && nationalCode !== '0') {
+            // حذف صفرهای ابتدایی از کد ملی موجود در داده‌ها
+            const normalizedNationalCode = nationalCode.toString().replace(/^0+/, '');
+
+            if (normalizedNationalCode && normalizedNationalCode.includes(normalizedSearchTerm)) {
                 hasResults = true;
                 const tr = document.createElement('tr');
 
