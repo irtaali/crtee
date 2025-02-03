@@ -74,6 +74,31 @@
       color: #388E3C;
     }
 
+    .links-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .links-list li {
+      margin-bottom: 15px;
+    }
+
+    .links-list a {
+      display: block;
+      background: #e8f5e9;
+      padding: 10px 15px;
+      border-radius: 10px;
+      color: #2e7d32;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .links-list a:hover {
+      background: #c8e6c9;
+      color: #1b5e20;
+    }
+
     a {
       color: #1e88e5;
       text-decoration: none;
@@ -130,8 +155,16 @@
       <div class="card-header">درباره ما</div>
       <div class="card-content">
         <p>
-          موسسه فرهنگی و تبلیغی تعالی اندیشه و رشد از تاریخ تأسیس خود با هدف ترویج و توسعه فرهنگ دینی در جامعه اسلامی آغاز به کار کرده است. 
+          موسسه فرهنگی و تبلیغی تعالی اندیشه و رشد از تاریخ تأسیس خود با هدف ترویج و توسعه فرهنگ دینی در جامعه اسلامی آغاز به کار کرده است.
         </p>
+        <!-- افزودن لینک‌ها به بخش "درباره ما" -->
+        <ul class="links-list">
+          <li><a href="http://irtaali.github.io/crtee/sanj.html" target="_blank">1. استعلام گواهی</a></li>
+          <li><a href="https://irtaali.github.io/crtee/kadr.html" target="_blank">2. دریافت گواهی فعالیت</a></li>
+          <li><a href="https://docs.google.com/spreadsheets/d/1c0g7deSI0y-QP4nQNux-l07_cumu3A6Gy0OolnhZWdU/export?format=pdf&size=A4&portrait=true&fitw=true&sheetnames=false&printtitle=false&gridlines=false&fz=12" target="_blank">3. دانش‌پذیران</a></li>
+          <li><a href="http://irtaali.github.io/crtee/emza.html" target="_blank">4. فرم درخواست گواهی فعالیت</a></li>
+          <li><a href="https://irtaali.github.io/crtee/nazar.html" target="_blank">نظرسنجی دوره تربیت مربی</a></li>
+        </ul>
       </div>
     </div>
 
