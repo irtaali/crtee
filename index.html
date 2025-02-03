@@ -1,205 +1,200 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>موسسه تعالی اندیشه و رشد</title>
-  <style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+<style type="text/css">
+    @keyframes gradient {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
     body {
-      font-family: 'Tahoma', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(to bottom, #e3f2fd, #f1f8e9);
-      color: #333;
+        font-family: 'Vazir', Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
     }
-
-    header {
-      background: linear-gradient(135deg, #42a5f5, #66bb6a);
-      color: white;
-      text-align: center;
-      padding: 2rem 0;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      border-bottom: 4px solid #2e7d32;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 2.8rem;
-      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
-    }
-
     .container {
-      width: 90%;
-      max-width: 1200px;
-      margin: 20px auto;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+        max-width: 600px;
+        width: 95%; 
+        text-align: center;
+        margin: 0 10px; 
     }
-
-    .card {
-      background: white;
-      border-radius: 15px;
-      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
-      margin-bottom: 20px;
-      border: 1px solid #ddd;
-      transition: all 0.3s ease;
+    h1 {
+        bottom: 20px;
+        color: #333;
+        font-size: 24px;
+        font-weight: bold;
     }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-      border: 1px solid #42a5f5;
+    #searchInput {
+        width: 90%; 
+        padding: 15px;
+        margin: 20px auto;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        font-size: 16px;
+        text-align: right; 
+        display: block;
     }
-
-    .card-header {
-      background: linear-gradient(135deg, #bbdefb, #c8e6c9);
-      padding: 1rem;
-      border-bottom: 3px solid #42a5f5;
-      text-align: center;
-      font-size: 1.6rem;
-      font-weight: bold;
+    #errorMsg, #loadingMsg {
+        font-size: 14px;
+        margin-top: 10px;
     }
-
-    .card-content {
-      padding: 1.5rem;
-      line-height: 1.8;
+    #errorMsg {
+        color: #d9534f;
+        display: none;
     }
-
-    .info-list {
-      list-style: none;
-      padding: 0;
+    #loadingMsg {
+        color: #0275d8;
+        display: none;
     }
-
-    .info-list li {
-      margin-bottom: 10px;
-      font-weight: bold;
-      color: #388E3C;
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        display: none;
+        margin-top: 20px;
+        direction: rtl;
+        text-align: center;
     }
-
-    .links-list {
-      list-style: none;
-      padding: 0;
+    th, td {
+        border: 1px solid #ddd;
+        padding: 12px;
     }
-
-    .links-list li {
-      margin-bottom: 15px;
+    th {
+        background-color: #007bff;
+        color: #fff;
     }
-
-    .links-list a {
-      display: block;
-      background: #e8f5e9;
-      padding: 10px 15px;
-      border-radius: 10px;
-      color: #2e7d32;
-      text-decoration: none;
-      font-weight: bold;
-      transition: background 0.3s, color 0.3s;
+    td {
+        background-color: #f9f9f9;
     }
-
-    .links-list a:hover {
-      background: #c8e6c9;
-      color: #1b5e20;
+    td:nth-child(1) { 
+        text-align: left;
     }
-
+    td:nth-child(2) { 
+        text-align: right;
+    }
     a {
-      color: #1e88e5;
-      text-decoration: none;
-      font-weight: bold;
+        color: #007bff;
+        text-decoration: none;
     }
-
     a:hover {
-      text-decoration: underline;
+        text-decoration: underline;
+    }
+    /* استایل منو */
+    .menu {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    .menu a {
+        margin: 0 15px;
+        font-size: 18px;
+        color: #007bff;
+        text-decoration: none;
+    }
+    .menu a:hover {
+        text-decoration: underline;
+    }
+</style>
+<div class="container">
+    <h1>مشاهده پروژه</h1>
+    <div class="menu">
+        <a href="https://irtaali.github.io/crtee/poroje.html">پروژه دانشپذیران</a>
+        <a href="https://irtaali.github.io/crtee/serche.html">جستجو پیشرفته</a>
+    </div>
+    <input type="text" id="searchInput" placeholder="کد ملی را وارد کنید" />
+    <div id="loadingMsg">داده‌ها در حال پردازش هستند، لطفا کمی صبر کنید...</div>
+    <div id="errorMsg">کد ملی اشتباه است</div>
+    <table id="excelData">
+        <thead>
+            <tr>
+                <th>پروژه</th>
+                <th>شماره گواهی</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+<script>
+    const url = 'https://docs.google.com/spreadsheets/d/1c0g7deSI0y-QP4nQNux-l07_cumu3A6Gy0OolnhZWdU/export?format=xlsx';
+
+    document.getElementById('loadingMsg').style.display = 'block';
+
+    fetch(url)
+        .then(response => response.arrayBuffer())
+        .then(data => {
+            const workbook = XLSX.read(data, { type: 'array' });
+            const firstSheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[firstSheetName];
+            const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+            displayData(jsonData);
+        })
+        .catch(error => console.error('خطا در دریافت فایل اکسل:', error))
+        .finally(() => {
+            document.getElementById('loadingMsg').style.display = 'none';
+        });
+
+    function displayData(data) {
+        const filteredData = data.slice(1);
+
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.trim();
+
+            if (/^\d{10,19}$/.test(searchTerm)) {
+                document.getElementById('errorMsg').style.display = 'none';
+                filterTable(filteredData, searchTerm);
+            } else {
+                document.getElementById('excelData').style.display = 'none';
+                document.getElementById('errorMsg').style.display = 'block';
+            }
+        });
     }
 
-    footer {
-      text-align: center;
-      background: linear-gradient(135deg, #42a5f5, #388E3C);
-      color: white;
-      padding: 15px 0;
-      box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
-      margin-top: 30px;
-      border-top: 4px solid #1b5e20;
+    function filterTable(data, searchTerm) {
+        const table = document.getElementById('excelData');
+        const errorMsg = document.getElementById('errorMsg');
+
+        table.querySelector('tbody').innerHTML = '';
+        let hasResults = false;
+
+        const normalizedSearchTerm = searchTerm.replace(/^0+/, '');
+
+        data.forEach(row => {
+            const nationalCode = row[4];
+            const normalizedNationalCode = nationalCode.toString().replace(/^0+/, '');
+
+            if (normalizedNationalCode && normalizedNationalCode.includes(normalizedSearchTerm)) {
+                hasResults = true;
+                const tr = document.createElement('tr');
+
+                const tdLink = document.createElement('td'); 
+                const linkText = row[9];
+                const a = document.createElement('a');
+                a.href = linkText;
+                a.textContent = "لینک پروژه";
+                tdLink.appendChild(a);
+                tr.appendChild(tdLink);
+
+                const tdInfo = document.createElement('td'); 
+                tdInfo.textContent = row[11];
+                tr.appendChild(tdInfo);
+
+                table.querySelector('tbody').appendChild(tr);
+            }
+        });
+
+        if (hasResults) {
+            errorMsg.style.display = 'none';
+            table.style.display = 'table';
+        } else {
+            errorMsg.style.display = 'block';
+            table.style.display = 'none';
+        }
     }
-
-    @media (max-width: 768px) {
-      header h1 {
-        font-size: 2rem;
-      }
-
-      .card-content {
-        font-size: 1rem;
-      }
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <h1>موسسه فرهنگی و تبلیغی تعالی اندیشه و رشد</h1>
-  </header>
-
-  <div class="container">
-    <div class="card">
-      <div class="card-header">مشخصات موسسه</div>
-      <div class="card-content">
-        <ul class="info-list">
-          <li>شناسه ملی: 14013770611</li>
-          <li>شناسه خدمت الکترونیک: 17061695000</li>
-          <li>کد شناسایی در سازمان تبلیغات: 31605007</li>
-          <li>شماره ثبت: 391</li>
-          <li>ایمیل: <a href="mailto:irtashacol@gmail.com">irtashacol@gmail.com</a></li>
-          <li>ایتا: <a href="https://eitaa.com/irtaali" target="_blank">https://eitaa.com/irtaali</a></li>
-          <li>شماره مجوز: 1403136/32273</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- تغییر عنوان "درباره ما" به "منو" -->
-    <div class="card">
-      <div class="card-header">منو</div>
-      <div class="card-content">
-        <!-- متن حذف شد -->
-        <!-- افزودن لینک‌ها با تغییرات مورد نظر -->
-        <ul class="links-list">
-          <li><a href="http://irtaali.github.io/crtee/sanj.html" target="_blank">1. استعلام گواهی</a></li>
-          <li><a href="https://irtaali.github.io/crtee/govahi.html" target="_blank">2. دریافت گواهی فعالیت</a></li>
-          <li><a href="https://docs.google.com/spreadsheets/d/1c0g7deSI0y-QP4nQNux-l07_cumu3A6Gy0OolnhZWdU/export?format=pdf&amp;size=A4&amp;portrait=true&amp;fitw=true&amp;sheetnames=false&amp;printtitle=false&amp;gridlines=false&amp;fz=12" onclick="window.open(this.href,'','width=800,height=600');return false;">3. دانش‌پذیران</a></li>
-          <li><a href="http://irtaali.github.io/crtee/emza.html" target="_blank">4. فرم درخواست مدارک آموزشی</a></li>
-          <li><a href="https://irtaali.github.io/crtee/nazar.html" target="_blank">نظرسنجی دوره تربیت مربی</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-header">اهداف و مأموریت‌ها</div>
-      <div class="card-content">
-        <ul>
-          <li>ترویج فرهنگ دینی</li>
-          <li>توانمندسازی طلاب و فرهنگیان</li>
-          <li>بارور نمودن اوقات فراغت جوانان</li>
-          <li>تشکیل جبهه فرهنگی</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-header">فعالیت‌ها</div>
-      <div class="card-content">
-        <p>
-          موسسه ما با برگزاری برنامه‌های مختلف فرهنگی، آموزشی و مشاوره‌ای، سعی در ایجاد فضایی مناسب برای رشد و شکوفایی استعدادهای نوجوانان و جوانان دارد.
-        </p>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-header">تماس با ما</div>
-      <div class="card-content">
-        <p>برای ارتباط با موسسه می‌توانید از ایمیل یا شبکه‌های اجتماعی زیر استفاده کنید.</p>
-        <p>ایمیل: <a href="mailto:irtashacol@gmail.com">irtashacol@gmail.com</a></p>
-        <p>ایتا: <a href="https://eitaa.com/irtaali" target="_blank">https://eitaa.com/irtaali</a></p>
-      </div>
-    </div>
-  </div>
-
-  <footer>
-    <p>© 2025 موسسه تعالی اندیشه و رشد | تمامی حقوق محفوظ است.</p>
-  </footer>
-</body>
-</html>
+</script>
